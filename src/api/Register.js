@@ -1,6 +1,8 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import {axiosInstance} from "./config";
+import {Link} from "react-router-dom";
+import login from "./Login";
 
 
 function Register(){
@@ -119,7 +121,7 @@ function Register(){
                     </form>
 
                     <p className="text-center mt-3 mb-0 small text-muted">
-                        Already have an account? <a href="#" className="text-decoration-none">Log in</a>
+                        Already have an account? <Link to="/login" className="text-decoration-none fw-bold">Login here</Link>
                     </p>
                 </div>
             </div>
