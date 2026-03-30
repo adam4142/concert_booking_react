@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     {path: 'login', element: <Login/>},
     {path: 'create', element: <AddConcert/>},
     {path: 'admin', element: <AdminPanel/>},
-    {path: 'update/:id', element: <EditConcert/>},
+    {path: 'update/:concertid', element: <EditConcert/>},
     {path: 'list', element: <LIstConcert/>}
 ]);
 

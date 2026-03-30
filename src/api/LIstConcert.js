@@ -56,7 +56,7 @@ function LIstConcert() {
                                         </span>
                                 </td>
                                 <td>
-                               <Link to="/update/{item.id}">Edit</Link>
+                                    <Link to={`/update/${item.id}`}>Edit</Link>
                                 </td>
                             </tr>
                         ))
