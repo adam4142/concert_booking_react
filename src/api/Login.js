@@ -1,9 +1,13 @@
-import {useEffect, useState} from "react";
+import
+{useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import {axiosInstance} from "./config";
 import {setUser} from "../store/authSlice";
 import { Link } from "react-router-dom";
 import {useNavigate} from "react-router";
+import store from "../store/store";
+import {authSlice} from "../store/authSlice";
+
 
 
 function Login(){
@@ -23,10 +27,12 @@ function Login(){
         try {
             const response = await axiosInstance.post("/api/login", cred);
 
-            const {user, token } = response.data;
-
-            localStorage.setItem("token", token);
-            console.log(token);
+            const {role, token } = response.data;
+            const  user={role:role,token:token
+            }
+            console.log("user is",user)
+            // localStorage.setItem("token", token);
+            // console.log(token);
             dispatch(setUser(user));
             navigate("/")
             console.log("Logged In successfully");
