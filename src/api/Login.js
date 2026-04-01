@@ -27,9 +27,8 @@ function Login(){
         try {
             const response = await axiosInstance.post("/api/login", cred);
 
-            const {role, token } = response.data;
-            const  user={role:role,token:token
-            }
+            const {role, token, name } = response.data;
+            const  user={role:role,token:token,name:name}
             console.log("user is",user)
             // localStorage.setItem("token", token);
             // console.log(token);
