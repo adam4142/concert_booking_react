@@ -16,25 +16,26 @@ function EditConcert() {
     const user=useSelector(store => store.auth.user);
 
     const fetchData = async () => {
-        const result = await axiosInstance.get('/api/editConcert/'+concertid, {
+        const result = await axiosInstance.get('/api/singleConcert/'+concertid, {
             headers: {'Authorization': "Bearer " +user.token}
         });
-        const data = result.data;
+        const data = result.data.Concert;
         setConcertName(data.concertName);
         setVenue(data.venue);
         setPrice(data.price);
-        setAvailTickets(data.availTickets);
+        setAvailTickets(data.availTicket);
         setDate(data.date);
     }
 
     const updateConcert = async () => {
         const result = await axiosInstance.post('/api/editConcert/'+concertid, {
+
         concertName : concertName,
             venue: venue,
             price: price,
             date: date,
-            availTickets: availTickets
-        }).then(response=>{
+            availTicket: availTickets
+        },   {headers: {'Authorization': "Bearer " +user.token}},).then(response=>{
             alert(response.data.message)
         })
     }
@@ -42,7 +43,7 @@ function EditConcert() {
         fetchData().then(r => {
             alert("rendered");
         });
-    }, []);
+    }, [concertid]);
 
 return (
     <div className="container mt-5">
