@@ -111,7 +111,7 @@ function App() {
 
                                             <div className="mt-auto d-flex justify-content-end border-top pt-3">
                                                 <Link
-                                                    to={`/book/${item.id || item._id}`}
+                                                    to={`/book/${item.id}`}
                                                     className="btn btn-primary btn-sm px-4 fw-bold rounded-pill shadow-sm py-2"
                                                 >
                                                     Book Now

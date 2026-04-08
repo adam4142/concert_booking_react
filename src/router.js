@@ -8,6 +8,7 @@ import AdminPanel from "./api/AdminPanel";
 import EditConcert from "./api/EditConcert";
 import LIstConcert from "./api/LIstConcert";
 import Booking from "./api/Booking";
+import MyBooking from "./api/MyBooking";
 
 const router = createBrowserRouter([
     { path: '/', element: <App/> },
@@ -16,9 +17,10 @@ const router = createBrowserRouter([
     {path: 'login', element: <Login/>},
     {path: 'create', element: <AddConcert/>},
     {path: 'admin', element: <AdminPanel/>},
-    {path: 'update/:concertid', element: <EditConcert/>},
+    {path: 'update/:concertId', element: <EditConcert/>},
     {path: 'list', element: <LIstConcert/>},
-    {path: 'book', element: <Booking/>}
+    {path: 'book/:concertId', element: <Booking/>},
+    {path: 'booking', element: <MyBooking/>}
 ]);
 
 export default router;

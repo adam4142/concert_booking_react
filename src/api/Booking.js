@@ -1,64 +1,84 @@
-import {useState} from "react";
-import {useSelector} from "react-redux";
-import {useNavigate, useParams} from "react-router";
-import {axiosInstance} from "./config";
-
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
+import { axiosInstance } from "./config";
 
 function Booking() {
-    const {concertId ,userId}=useParams();
-    const [loading, setLoading] = useState(false);
-
+    const { concertId } = useParams();
     const user = useSelector(state => state.auth.user);
     const navigate = useNavigate();
 
+    // Default to 1 ticket instead of 0
+    const [noOfTicketsBooked, setNumberOfTicketsBooked] = useState(1);
+
     const handleBooking = async () => {
         if (!user || !user.token) {
-            alert("Please login to book ticket");
+            alert("Please login to book tickets");
             navigate('/login');
+            return;
         }
-        setLoading(true);
 
-        const book = async () => {
-            try {
-                const result = await axiosInstance.post(
-                    `/api/createBooking/${concertId}/${userId}`,
-                    {
-                        headers: {
-                            'Authorization': `Bearer ${user.token}`
-                        }
+        try {
+            const result = await axiosInstance.post(
+                `/api/createBooking/${concertId}/${user.id}`,
+                { noOfTicketsBooked: parseInt(noOfTicketsBooked) },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${user.token}`
                     }
-                );
-                console.log(result)
-                return result.data;
-            } catch (error) {
-                console.error("Booking failed:", error);
-            }
-        };
-    }
+                }
+            );
 
-        return (
-            <div className="booking-container" style={{ padding: '20px', textAlign: 'center' }}>
-                <h2>Confirm Your Selection</h2>
-                <p>Ready to book your ticket for Concert #{concertId}?</p>
+            console.log("Booking successful:", result.data);
+            alert("Booking Confirmed!");
+            navigate('/my-bookings'); // Redirect user after success
 
-                <button
-                    onClick={handleBooking}
-                    disabled={loading}
+        } catch (error) {
+            console.error("Booking failed:", error);
+            alert("Something went wrong. Please try again.");
+        }
+    };
+
+    return (
+        <div className="booking-container" style={{ padding: '40px', textAlign: 'center', maxWidth: '400px', margin: '0 auto' }}>
+            <h2 style={{ marginBottom: '20px' }}>Confirm Your Selection</h2>
+            <p>Concert ID: <strong>{concertId}</strong></p>
+
+            <div style={{ marginBottom: '20px' }}>
+                <label style={{ display: 'block', marginBottom: '8px' }}>Number of Tickets:</label>
+                <input
+                    type="number"
+                    min="1"
+                    max="10"
+                    value={noOfTicketsBooked}
+                    onChange={(e) => setNumberOfTicketsBooked(e.target.value)}
                     style={{
-                        padding: '10px 20px',
-                        backgroundColor: loading ? '#ccc' : '#007bff',
-                        color: 'white',
-                        border: 'none',
+                        padding: '10px',
+                        width: '100%',
                         borderRadius: '5px',
-                        cursor: loading ? 'not-allowed' : 'pointer'
+                        border: '1px solid #ccc',
+                        textAlign: 'center'
                     }}
-                >
-                    {loading ? "Processing..." : "Book Ticket Now"}
-                </button>
-
-                {loading && <p style={{ marginTop: '10px', color: '#666' }}>Finalizing your reservation...</p>}
+                />
             </div>
-        );
 
+            <button
+                onClick={handleBooking}
+                style={{
+                    padding: '12px 24px',
+                    backgroundColor: '#007bff',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    width: '100%',
+                    fontWeight: 'bold'
+                }}
+            >
+                Book Ticket Now
+            </button>
+        </div>
+    );
 }
-    export default Booking;
+
+export default Booking;
